@@ -6,7 +6,7 @@ from selenium.webdriver.common.by import By
 хотя умею этим пользоваться"""
 
 
-def test_valid_authentication(self):
+def test_invalid_email_authentication(self):
     # Создаю вебдрайвер для хрома и в настройках указываю, чтоб он не закрывался после выполнения кода.
     chrom_options = Options()
     chrom_options.add_experimental_option("detach", True)
@@ -14,11 +14,11 @@ def test_valid_authentication(self):
 
     # Создаю поля, которые буду использовать в тестах.
     authorization_page_url = "https://www.ourapp.com/authorization_page"  # Урла страницы регистрации нашего приложения.
-    main_page_url = "https://www.ourapp.com/authorization_page"  # Урла страницы, которая должна открыться, после успешной регистрации.
+    error_message = "Неверный имейл"
 
     name = "Artyom"
     surname = "Avdieiev"
-    email = "test@mail.com"
+    email = "@mail.com"
     phone_number = 89810147436
 
     # Перешёл на страницу регистрации
@@ -43,5 +43,7 @@ def test_valid_authentication(self):
     check_box_xpath.click()
     auth_button_xpath.click()
 
-    assert driver.current_url == main_page_url  # проверели, что перешли на нужную урлу.
-    # Можно так же найти выскакивающее сообщение и назначить ис тру. Проверить его наличие и много всего.
+    assert driver.current_url == authorization_page_url  # проверели, что перешли на нужную урлу.
+    assert driver.find_element(By.XPATH, "сообщение об ошибке")
+    assert driver.find_element(By.XPATH, "сообщение об ошибке").text == error_message
+
